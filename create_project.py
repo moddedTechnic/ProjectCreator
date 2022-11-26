@@ -1,6 +1,6 @@
 import os
 import shutil
-from dataclasses import dataclass
+import subprocess
 from datetime import datetime
 from pathlib import Path
 
@@ -97,6 +97,11 @@ def main(argv: list[str]) -> int:
     if callable(generator):
         if not generator(arguments, project_path):
             return 1
+
+    subprocess.run('git init', cwd=project_path, shell=True, check=True)
+    subprocess.run('git add .', cwd=project_path, shell=True, check=True)
+    subprocess.run('git commit -m "Inital commit"', cwd=project_path, shell=True, check=True)
+
     return 0
 
 
