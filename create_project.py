@@ -33,6 +33,13 @@ def parse_args(argv: list[str]) -> Arguments:
     return arguments
 
 
+def check_arguments(arguments: Arguments) -> bool:
+    if not arguments.project_name or not arguments.type:
+        print('Usage: ', *sys.orig_argv, f'[OPTIONS...] NAME')
+        return False
+    return True
+
+
 def get_project_path(arguments: Arguments) -> Path:
     project_root = Path.home() / 'Documents' / 'code' / arguments.language
     if arguments.type != arguments.language:
@@ -81,7 +88,14 @@ def create_gitignore(arguments: Arguments, project_path: Path):
 
 
 def main(argv: list[str]) -> int:
+    if len(argv) == 1:
+        print('Usage: ', *sys.orig_argv, f'[OPTIONS...] NAME')
+        return 1
+
     arguments = parse_args(argv[1:])
+    if not check_arguments(arguments):
+        return 1
+
     project_path = get_project_path(arguments)
     print(f'Creating a {arguments.type} project called {arguments.project_name}')
     if not create_project_dir(project_path):
