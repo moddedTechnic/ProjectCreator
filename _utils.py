@@ -11,7 +11,7 @@ TEMPLATES_DIR = __dir__ / 'templates'
 @dataclass
 class Arguments:
     type: str = ''
-    language: str | None = None
+    language: str = ''
     project_name: str = ''
     license: str = 'MIT'
     full_name: str = ''

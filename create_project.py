@@ -7,6 +7,7 @@ from datetime import datetime
 from pathlib import Path
 
 import _generate_project
+from _generate_project import PROJECT_LANGUAGES, PROJECT_TYPES
 from _utils import Arguments, TEMPLATES_DIR, insert_template
 
 __dir__ = Path(__file__).parent
@@ -18,7 +19,8 @@ def parse_args(argv: list[str]) -> Arguments:
 
     for arg in args:
         if arg in {'-t', '--type'}:
-            arguments.type = next(args)
+            typ = next(args)
+            arguments.type = PROJECT_TYPES.get(typ, typ)
         elif arg in {'-l', '--license'}:
             arguments.license = next(args)
         elif arg in {'-f', '--fullname'}:
@@ -26,9 +28,7 @@ def parse_args(argv: list[str]) -> Arguments:
         else:
             arguments.project_name = arg
 
-    arguments.language = {
-        'c': 'c',
-    }.get(arguments.type)
+    arguments.language = PROJECT_LANGUAGES.get(arguments.type, arguments.type)
 
     if not arguments.full_name:
         arguments.full_name = os.getlogin()
@@ -37,7 +37,6 @@ def parse_args(argv: list[str]) -> Arguments:
 
 
 def get_project_path(arguments: Arguments) -> Path:
-    assert arguments.language is not None
     project_root = Path.home() / 'Documents' / 'code' / arguments.language
     if arguments.type != arguments.language:
         project_root /= arguments.type
@@ -75,7 +74,6 @@ def create_license(arguments: Arguments, project_path: Path):
 
 
 def create_gitignore(arguments: Arguments, project_path: Path):
-    assert arguments.language is not None
     gitignore = TEMPLATES_DIR / 'gitignore' / f'{arguments.language.capitalize()}.gitignore'
     if (gitignore.exists()):
         insert_template(gitignore, project_path / '.gitignore')
