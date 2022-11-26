@@ -30,9 +30,6 @@ def parse_args(argv: list[str]) -> Arguments:
 
     arguments.language = PROJECT_LANGUAGES.get(arguments.type, arguments.type)
 
-    if not arguments.full_name:
-        arguments.full_name = os.getlogin()
-
     return arguments
 
 

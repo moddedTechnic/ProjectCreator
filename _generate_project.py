@@ -34,5 +34,9 @@ def c(arguments: Arguments, project_path: Path) -> bool:
 
 def python(arguments: Arguments, project_path: Path) -> bool:
     v = sys.version_info
-    subprocess.run(['pipenv', '--python', f'{v.major}.{v.minor}.{v.micro}'])
+    subprocess.run(['pipenv', '--python', f'{v.major}.{v.minor}.{v.micro}'], cwd=project_path)
+    insert_template(
+        TEMPLATES_DIR / 'python' / 'main.py',
+        project_path / 'main.py'
+    )
     return True
