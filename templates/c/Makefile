@@ -1,6 +1,9 @@
 CC := gcc
 
 build:
-	$(CC) -o {project_name} src/main.c
+	@$(CC) -o {project_name} src/main.c
 
-.PHONY: build
+clean:
+	@-rm {project_name}
+
+.PHONY: build clean
