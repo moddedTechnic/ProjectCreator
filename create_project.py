@@ -37,6 +37,9 @@ def check_arguments(arguments: Arguments) -> bool:
     if not arguments.project_name or not arguments.type:
         print('Usage: ', *sys.orig_argv, f'[OPTIONS...] NAME')
         return False
+    if not (TEMPLATES_DIR / 'licenses' / arguments.license).exists():
+        print(f'{arguments.license} is not a valid license')
+        return False
     return True
 
 
