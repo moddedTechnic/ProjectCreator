@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import os
 import shutil
 import subprocess
@@ -101,6 +103,7 @@ def main(argv: list[str]) -> int:
     subprocess.run('git init', cwd=project_path, shell=True, check=True)
     subprocess.run('git add .', cwd=project_path, shell=True, check=True)
     subprocess.run('git commit -m "Inital commit"', cwd=project_path, shell=True, check=True)
+    subprocess.run('code .', cwd=project_path, shell=True, check=True)
 
     return 0
 
